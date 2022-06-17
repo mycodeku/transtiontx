@@ -11,6 +11,7 @@ require (
 	github.com/shopspring/decimal v1.3.1
 )
 
+
 require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
@@ -53,7 +54,7 @@ require (
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 // indirect
 	github.com/tecbot/gorocksdb v0.0.0-20191217155057-f0fad39f321c // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
-	github.com/tendermint/tendermint v0.35.2 // indirect
+	github.com/tendermint/tendermint v0.35.6 // indirct
 	github.com/tendermint/tm-db v0.6.7 // indirect
 	github.com/tharsis/ethermint v0.16.1 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
@@ -62,7 +63,7 @@ require (
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20220602131408-e326c6e8e9c8 // indirect
-	google.golang.org/grpc v1.46.2 // indirect
+	google.golang.org/grpc v1.47.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
