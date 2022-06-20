@@ -4,15 +4,15 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"github.com/cosmos/cosmos-sdk/client"
+	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/cosmos/cosmos-sdk/simapp"
+	"github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/tx/signing"
+	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
+	comostxtypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/shopspring/decimal"
-	"github.com/tharsis/cosmos-sdk/client"
-	cryptotypes "github.com/tharsis/cosmos-sdk/crypto/types"
-	"github.com/tharsis/cosmos-sdk/simapp"
-	"github.com/tharsis/cosmos-sdk/types"
-	"github.com/tharsis/cosmos-sdk/types/tx/signing"
-	xauthsigning "github.com/tharsis/cosmos-sdk/x/auth/signing"
-	comostxtypes "github.com/tharsis/cosmos-sdk/x/bank/types"
 	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
 )
 
@@ -38,8 +38,9 @@ func (self *EvmosSdk) CreateTx() client.TxBuilder {
 	initClientCtx = initClientCtx.WithTxConfig(simapp.MakeTestEncodingConfig().TxConfig)
 
 	amount := self.precisionTransaction(self.Value, self.Precision)
+	fmt.Println(amount.String())
 	amounttosend, ok := types.NewIntFromString(amount.String())
-	if ok {
+	if !ok {
 		panic(fmt.Errorf("create amount err"))
 	}
 	sendMsg := &comostxtypes.MsgSend{FromAddress: self.FromAdd, ToAddress: self.ToAdd, Amount: types.Coins{types.NewCoin("aevmos", amounttosend)}}
