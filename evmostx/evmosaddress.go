@@ -46,7 +46,7 @@ func (self *EvmosAddr) ComsAddrToEthAddr() error {
 		return err
 	}
 
-	self.ComsAddr = "0x" + hex.EncodeToString(addrbite.Bytes())
+	self.EthAddr = "0x" + hex.EncodeToString(addrbite.Bytes())
 	return nil
 }
 

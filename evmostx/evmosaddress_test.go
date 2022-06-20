@@ -26,7 +26,7 @@ func Test_EthAddrChange(t *testing.T) {
 
 func Test_ComosAddrChange(t *testing.T) {
 	var addr_test EvmosAddr
-	addr_test.ComsAddr = "evmos1cuvqlx3cvmqahnhgunjpexseu5h7qzsgxkhmya"
+	addr_test.ComsAddr = "evmos1e8ayvt0p8xm7hx9nvs32232ghlgaaq6sqlk3f8"
 	addr_test.ComsAddrToEthAddr()
-	fmt.Println(addr_test.ComsAddr)
+	fmt.Println(addr_test.EthAddr)
 }
