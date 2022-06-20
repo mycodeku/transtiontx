@@ -17,10 +17,9 @@ import (
 )
 
 type EvmosSdk struct {
-	FromAdd, ToAdd, Memo, Denom, Value               string
+	FromAdd, ToAdd, Memo, Denom, Value, Fee          string
 	Precision                                        uint8
 	TimeoutHeight, Sequence, GasLimit, AccountNumber uint64
-	Fee                                              int64
 	PubkeyByte                                       []byte
 }
 
@@ -46,9 +45,11 @@ func (self *EvmosSdk) CreateTx() client.TxBuilder {
 	builder := initClientCtx.TxConfig.NewTxBuilder()
 	builder.SetMsgs(sendMsg)
 	builder.SetGasLimit(self.GasLimit)
-	builder.SetFeeAmount(types.Coins{types.NewInt64Coin("aevmos", self.Fee)})
 	builder.SetTimeoutHeight(self.TimeoutHeight)
 
+	feeamount := self.precisionTransaction(self.Fee, self.Precision)
+	feeamounttosend, ok := types.NewIntFromString(feeamount.String())
+	builder.SetFeeAmount(types.Coins{types.NewCoin("aevmos", feeamounttosend)})
 	aa := &ethsecp256k1.PubKey{Key: self.PubkeyByte}
 	sig := signing.SignatureV2{
 		PubKey: aa,
