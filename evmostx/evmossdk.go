@@ -38,7 +38,6 @@ func (self *EvmosSdk) CreateTx() client.TxBuilder {
 	initClientCtx = initClientCtx.WithTxConfig(simapp.MakeTestEncodingConfig().TxConfig)
 
 	amount := self.precisionTransaction(self.Value, self.Precision)
-	fmt.Println(amount.String())
 	amounttosend, ok := types.NewIntFromString(amount.String())
 	if !ok {
 		panic(fmt.Errorf("create amount err"))
