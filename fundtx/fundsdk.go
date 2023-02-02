@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/types"
@@ -13,7 +14,6 @@ import (
 	comostxtypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/shopspring/decimal"
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
 )
 
 type FundSdk struct {
@@ -49,7 +49,8 @@ func (self *FundSdk) CreateTx(ChainId string, CoinType string) client.TxBuilder 
 	feeamount := self.precisionTransaction(self.Fee, self.Precision)
 	feeamounttosend, ok := types.NewIntFromString(feeamount.String())
 	builder.SetFeeAmount(types.Coins{types.NewCoin(CoinType, feeamounttosend)})
-	aa := &ethsecp256k1.PubKey{Key: self.PubkeyByte}
+	aa := &secp256k1.PubKey{Key: self.PubkeyByte}
+	aa.Type()
 	sig := signing.SignatureV2{
 		PubKey: aa,
 		Data: &signing.SingleSignatureData{
@@ -90,7 +91,7 @@ func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, C
 		SignMode:  signing.SignMode_SIGN_MODE_UNSPECIFIED,
 		Signature: signBytes,
 	}
-	aa := &ethsecp256k1.PubKey{Key: self.PubkeyByte}
+	aa := &secp256k1.PubKey{Key: self.PubkeyByte}
 	sig := signing.SignatureV2{
 		PubKey:   aa,
 		Data:     &sigData,
@@ -106,7 +107,7 @@ func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, C
 }
 
 func (self *FundSdk) PubKey() cryptotypes.PubKey {
-	return &ethsecp256k1.PubKey{
+	return &secp256k1.PubKey{
 		Key: self.PubkeyByte,
 	}
 }
