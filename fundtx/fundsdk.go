@@ -3,6 +3,7 @@ package fundtx
 import (
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
@@ -40,11 +41,12 @@ func (self *FundSdk) CreateTx(ChainId string, CoinType string) client.TxBuilder 
 	if !ok {
 		panic(fmt.Errorf("create amount err"))
 	}
-	sendMsg := &comostxtypes.MsgSend{FromAddress: self.FromAdd, ToAddress: self.ToAdd, Amount: types.Coins{types.NewCoin(self.Denom, amounttosend)}}
+	sendMsg := &comostxtypes.MsgSend{FromAddress: self.FromAdd, ToAddress: self.ToAdd, Amount: types.Coins{types.NewCoin(CoinType, amounttosend)}}
 	builder := initClientCtx.TxConfig.NewTxBuilder()
 	builder.SetMsgs(sendMsg)
 	builder.SetGasLimit(self.GasLimit)
 	builder.SetTimeoutHeight(self.TimeoutHeight)
+	builder.SetMemo(self.Memo)
 
 	feeamount := self.precisionTransaction(self.Fee, self.Precision)
 	feeamounttosend, ok := types.NewIntFromString(feeamount.String())
@@ -80,7 +82,7 @@ func (self *FundSdk) CreatTxByte(builder client.TxBuilder, ChainId string) (stri
 	return hex.EncodeToString(crypto.Keccak256Hash(signBytes).Bytes()), hex.EncodeToString(signBytes)
 }
 
-func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, ChainId string) string {
+func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, ChainId string) (string, string) {
 	signBytes, err := hex.DecodeString(sign)
 	if err != nil {
 		fmt.Println(err)
@@ -102,8 +104,8 @@ func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, C
 	initClientCtx := client.Context{}.WithChainID(ChainId)
 	initClientCtx = initClientCtx.WithTxConfig(simapp.MakeTestEncodingConfig().TxConfig)
 	txBytes, err := initClientCtx.TxConfig.TxEncoder()(builder.GetTx())
-
-	return base64.StdEncoding.EncodeToString(txBytes)
+	txmg, _ := json.Marshal(builder.GetTx())
+	return base64.StdEncoding.EncodeToString(txBytes), hex.EncodeToString(txmg)
 }
 
 func (self *FundSdk) PubKey() cryptotypes.PubKey {
