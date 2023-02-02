@@ -40,7 +40,7 @@ func (self *FundSdk) CreateTx(ChainId string, CoinType string) client.TxBuilder 
 	if !ok {
 		panic(fmt.Errorf("create amount err"))
 	}
-	sendMsg := &comostxtypes.MsgSend{FromAddress: self.FromAdd, ToAddress: self.ToAdd, Amount: types.Coins{types.NewCoin("aevmos", amounttosend)}}
+	sendMsg := &comostxtypes.MsgSend{FromAddress: self.FromAdd, ToAddress: self.ToAdd, Amount: types.Coins{types.NewCoin(self.Denom, amounttosend)}}
 	builder := initClientCtx.TxConfig.NewTxBuilder()
 	builder.SetMsgs(sendMsg)
 	builder.SetGasLimit(self.GasLimit)
