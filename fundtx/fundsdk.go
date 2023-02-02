@@ -87,7 +87,7 @@ func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, C
 	signBytes = signBytes[:64]
 
 	sigData := signing.SingleSignatureData{
-		SignMode:  signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
+		SignMode:  signing.SignMode_SIGN_MODE_UNSPECIFIED,
 		Signature: signBytes,
 	}
 	aa := &ethsecp256k1.PubKey{Key: self.PubkeyByte}
