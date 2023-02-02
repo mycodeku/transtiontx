@@ -54,7 +54,7 @@ func (self *FundSdk) CreateTx(ChainId string, CoinType string) client.TxBuilder 
 	sig := signing.SignatureV2{
 		PubKey: aa,
 		Data: &signing.SingleSignatureData{
-			SignMode: signing.SignMode_SIGN_MODE_UNSPECIFIED,
+			SignMode: signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
 		},
 		Sequence: self.Sequence,
 	}
@@ -88,7 +88,7 @@ func (self *FundSdk) GetTxWithSignature(sign string, builder client.TxBuilder, C
 	signBytes = signBytes[:64]
 
 	sigData := signing.SingleSignatureData{
-		SignMode:  signing.SignMode_SIGN_MODE_UNSPECIFIED,
+		SignMode:  signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
 		Signature: signBytes,
 	}
 	aa := &secp256k1.PubKey{Key: self.PubkeyByte}
