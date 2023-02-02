@@ -53,7 +53,7 @@ func (self *FundSdk) CreateTx(ChainId string, CoinType string) client.TxBuilder 
 	sig := signing.SignatureV2{
 		PubKey: aa,
 		Data: &signing.SingleSignatureData{
-			SignMode: signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
+			SignMode: signing.SignMode_SIGN_MODE_UNSPECIFIED,
 		},
 		Sequence: self.Sequence,
 	}
